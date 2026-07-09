@@ -29,16 +29,21 @@ export default function RolePieChart({
     },
   ];
 
-  const COLORS = ["#2563eb", "#22c55e"];
+  const COLORS = ["#2563eb", "#10b981"];
 
   return (
-    <ResponsiveContainer width="100%" height={320}>
+    <ResponsiveContainer width="100%" height={340}>
       <PieChart>
         <Pie
           data={data}
           dataKey="value"
-          outerRadius={100}
-          label
+          innerRadius={70}
+          outerRadius={110}
+          paddingAngle={4}
+          labelLine={false}
+          label={({ name, percent }) =>
+            `${name} ${(percent! * 100).toFixed(0)}%`
+          }
         >
           {data.map((_, index) => (
             <Cell
@@ -50,7 +55,10 @@ export default function RolePieChart({
 
         <Tooltip />
 
-        <Legend />
+        <Legend
+          verticalAlign="bottom"
+          iconType="circle"
+        />
       </PieChart>
     </ResponsiveContainer>
   );

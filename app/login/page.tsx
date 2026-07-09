@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { ShieldCheck, Mail, Lock, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -37,17 +38,15 @@ export default function LoginPage() {
         return;
       }
 
-      console.log("Role:", data.user.role);
-
       if (data.user.role === "admin") {
-        console.log("Redirecting to Admin...");
         router.push("/admin");
       } else {
-        console.log("Redirecting to User...");
         router.push("/user");
       }
-    } catch (err) {
-      console.error(err);
+
+      router.refresh();
+    } catch (error) {
+      console.error(error);
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -55,107 +54,253 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-blue-50 to-gray-100 px-4">
-      <div className="w-full max-w-md rounded-2xl bg-white p-10 shadow-xl">
+    <main
+      className="
+        relative
+        flex
+        min-h-screen
+        items-center
+        justify-center
+        overflow-hidden
+        bg-gradient-to-br
+        from-slate-100
+        via-blue-50
+        to-indigo-100
+        px-4
+        transition-colors
+        duration-500
+        dark:from-slate-950
+        dark:via-slate-900
+        dark:to-slate-950
+      "
+    >
+      {/* Background Blur Circles */}
+
+      <div className="absolute left-10 top-20 h-72 w-72 rounded-full bg-blue-500/20 blur-[120px]" />
+
+      <div className="absolute bottom-10 right-10 h-80 w-80 rounded-full bg-indigo-500/20 blur-[120px]" />
+
+      {/* Login Card */}
+
+      <div
+        className="
+          relative
+          w-full
+          max-w-md
+          rounded-3xl
+          border
+          border-white/20
+          bg-white/70
+          p-8
+          shadow-2xl
+          backdrop-blur-2xl
+          transition-all
+          duration-500
+          hover:-translate-y-1
+          hover:shadow-[0_20px_60px_rgba(0,0,0,0.15)]
+          dark:border-slate-700
+          dark:bg-slate-900/70
+        "
+      >
+        {/* Logo */}
+
+        <div className="mb-8 flex justify-center">
+          <div
+            className="
+              flex
+              h-20
+              w-20
+              items-center
+              justify-center
+              rounded-3xl
+              bg-blue-600
+              text-white
+              shadow-xl
+            "
+          >
+            <ShieldCheck size={38} />
+          </div>
+        </div>
+
         {/* Heading */}
+
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-blue-600">
-            Role Based Authentication
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
+            Welcome Back
           </h1>
 
-          <p className="mt-2 text-gray-500">
-            Welcome back! Please login to continue.
+          <p className="mt-3 text-slate-500 dark:text-slate-400">
+            Sign in to access your dashboard
           </p>
         </div>
 
-        {/* Login Form */}
-        <form onSubmit={handleLogin} className="space-y-5">
+        {/* Form */}
+
+        <form onSubmit={handleLogin} className="space-y-6">
+
           {/* Email */}
+
           <div>
-            <label
-              htmlFor="email"
-              className="mb-2 block text-sm font-medium text-gray-700"
-            >
+            <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
               Email
             </label>
 
-            <input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-            />
+            <div className="relative">
+              <Mail
+                size={18}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+              />
+
+              <input
+                type="email"
+                required
+                autoComplete="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="
+                  w-full
+                  rounded-2xl
+                  border
+                  border-slate-300
+                  bg-white/70
+                  py-3
+                  pl-12
+                  pr-4
+                  text-slate-900
+                  outline-none
+                  transition-all
+                  duration-300
+                  placeholder:text-slate-400
+                  focus:border-blue-500
+                  focus:ring-4
+                  focus:ring-blue-100
+                  dark:border-slate-700
+                  dark:bg-slate-800
+                  dark:text-white
+                  dark:focus:ring-blue-900/40
+                "
+              />
+            </div>
           </div>
 
           {/* Password */}
+
           <div>
-            <label
-              htmlFor="password"
-              className="mb-2 block text-sm font-medium text-gray-700"
-            >
+            <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
               Password
             </label>
 
-            <input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              autoComplete="current-password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-            />
+            <div className="relative">
+              <Lock
+                size={18}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+              />
+
+              <input
+                type="password"
+                required
+                autoComplete="current-password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="
+                  w-full
+                  rounded-2xl
+                  border
+                  border-slate-300
+                  bg-white/70
+                  py-3
+                  pl-12
+                  pr-4
+                  text-slate-900
+                  outline-none
+                  transition-all
+                  duration-300
+                  placeholder:text-slate-400
+                  focus:border-blue-500
+                  focus:ring-4
+                  focus:ring-blue-100
+                  dark:border-slate-700
+                  dark:bg-slate-800
+                  dark:text-white
+                  dark:focus:ring-blue-900/40
+                "
+              />
+            </div>
           </div>
 
-          {/* Error Message */}
+          {/* Error */}
+
           {error && (
-            <p className="rounded-md bg-red-100 p-2 text-center text-sm text-red-600">
+            <div
+              className="
+                rounded-2xl
+                border
+                border-red-200
+                bg-red-50
+                px-4
+                py-3
+                text-center
+                text-sm
+                text-red-600
+                dark:border-red-900
+                dark:bg-red-950/30
+                dark:text-red-400
+              "
+            >
               {error}
-            </p>
+            </div>
           )}
 
-          {/* Login Button */}
+          {/* Button */}
+
           <button
             type="submit"
             disabled={loading}
-            className="flex w-full items-center justify-center rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+            className="
+              flex
+              w-full
+              items-center
+              justify-center
+              rounded-2xl
+              bg-blue-600
+              py-3.5
+              font-semibold
+              text-white
+              shadow-lg
+              transition-all
+              duration-300
+              hover:-translate-y-0.5
+              hover:bg-blue-700
+              hover:shadow-xl
+              active:scale-[0.98]
+              disabled:cursor-not-allowed
+              disabled:opacity-70
+            "
           >
             {loading ? (
               <>
-                <svg
-                  className="mr-2 h-5 w-5 animate-spin"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                  />
-                </svg>
-                Logging in...
+                <Loader2
+                  size={20}
+                  className="mr-2 animate-spin"
+                />
+                Signing In...
               </>
             ) : (
-              "Login"
+              "Sign In"
             )}
           </button>
         </form>
+
+        {/* Footer */}
+
+        <div className="mt-8 text-center">
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            Role Based Authentication System
+          </p>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

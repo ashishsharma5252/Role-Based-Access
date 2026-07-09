@@ -37,7 +37,6 @@ export default function DashboardPage() {
   const fetchDashboard = async () => {
     try {
       const response = await fetch("/api/dashboard");
-
       const data = await response.json();
 
       if (data.success) {
@@ -58,16 +57,21 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex h-[70vh] items-center justify-center">
-        <h2 className="text-xl font-semibold text-gray-600">
-          Loading Dashboard...
-        </h2>
+        <div className="text-center">
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+
+          <h2 className="text-lg font-semibold text-slate-600 dark:text-slate-300">
+            Loading Dashboard...
+          </h2>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="space-y-8">
-      {/* Dashboard Cards */}
+      {/* Statistics */}
+
       <DashboardStats
         totalUsers={dashboard.totalUsers}
         adminCount={dashboard.totalAdmins}
@@ -75,12 +79,29 @@ export default function DashboardPage() {
       />
 
       {/* Charts */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Pie Chart */}
-        <div className="rounded-2xl bg-white p-6 shadow-md">
-          <h2 className="mb-6 text-xl font-bold text-slate-800">
-            Users by Role
-          </h2>
+
+      <section className="grid gap-6 xl:grid-cols-2">
+        <div
+          className="
+            rounded-3xl
+            border border-slate-200 dark:border-slate-700
+            bg-white dark:bg-slate-900
+            p-6
+            shadow-sm
+            transition-all duration-300
+            hover:-translate-y-1
+            hover:shadow-xl
+          "
+        >
+          <div className="mb-6">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+              Users by Role
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              Distribution of users in the system
+            </p>
+          </div>
 
           <RolePieChart
             adminCount={dashboard.totalAdmins}
@@ -88,38 +109,71 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* Bar Chart */}
-        <div className="rounded-2xl bg-white p-6 shadow-md">
-          <h2 className="mb-6 text-xl font-bold text-slate-800">
-            User Distribution
-          </h2>
+        <div
+          className="
+            rounded-3xl
+            border border-slate-200 dark:border-slate-700
+            bg-white dark:bg-slate-900
+            p-6
+            shadow-sm
+            transition-all duration-300
+            hover:-translate-y-1
+            hover:shadow-xl
+          "
+        >
+          <div className="mb-6">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+              User Distribution
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              Comparison between admins and users
+            </p>
+          </div>
 
           <UserBarChart
             totalAdmins={dashboard.totalAdmins}
             totalUsers={dashboard.totalNormalUsers}
           />
         </div>
-      </div>
+      </section>
 
       {/* Recent Users */}
-      <div className="rounded-2xl bg-white p-6 shadow-md">
-        <h2 className="mb-6 text-xl font-bold text-slate-800">
-          Recent Users
-        </h2>
+
+      <section
+        className="
+          overflow-hidden
+          rounded-3xl
+          border border-slate-200 dark:border-slate-700
+          bg-white dark:bg-slate-900
+          shadow-sm
+          transition-all duration-300
+          hover:shadow-xl
+        "
+      >
+        <div className="border-b border-slate-200 dark:border-slate-700 px-6 py-5">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+            Recent Users
+          </h2>
+
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Recently registered users
+          </p>
+        </div>
 
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-200">
-            <thead className="bg-slate-100">
+          <table className="min-w-full">
+            <thead className="bg-slate-50 dark:bg-slate-800">
               <tr>
-                <th className="border-b px-6 py-3 text-left text-sm font-semibold text-gray-700">
-                  Name
+                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-600 dark:text-slate-300">
+                  User
                 </th>
 
-                <th className="border-b px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-600 dark:text-slate-300">
                   Email
                 </th>
 
-                <th className="border-b px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-600 dark:text-slate-300">
                   Role
                 </th>
               </tr>
@@ -130,18 +184,42 @@ export default function DashboardPage() {
                 dashboard.recentUsers.map((user) => (
                   <tr
                     key={user._id}
-                    className="hover:bg-slate-50 transition"
+                    className="
+                      border-t border-slate-200 dark:border-slate-700
+                      transition-all duration-200
+                      hover:bg-slate-50 dark:hover:bg-slate-800
+                    "
                   >
-                    <td className="border-b px-6 py-4">{user.name}</td>
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-4">
+                        <div
+                          className="
+                            flex h-11 w-11 items-center justify-center
+                            rounded-full
+                            bg-blue-600
+                            font-semibold
+                            text-white
+                          "
+                        >
+                          {user.name.charAt(0).toUpperCase()}
+                        </div>
 
-                    <td className="border-b px-6 py-4">{user.email}</td>
+                        <span className="font-medium text-slate-900 dark:text-white">
+                          {user.name}
+                        </span>
+                      </div>
+                    </td>
 
-                    <td className="border-b px-6 py-4">
+                    <td className="px-6 py-5 text-slate-600 dark:text-slate-300">
+                      {user.email}
+                    </td>
+
+                    <td className="px-6 py-5">
                       <span
                         className={`rounded-full px-3 py-1 text-xs font-semibold ${
                           user.role === "admin"
-                            ? "bg-blue-100 text-blue-700"
-                            : "bg-green-100 text-green-700"
+                            ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
+                            : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
                         }`}
                       >
                         {user.role}
@@ -153,7 +231,7 @@ export default function DashboardPage() {
                 <tr>
                   <td
                     colSpan={3}
-                    className="py-8 text-center text-gray-500"
+                    className="py-14 text-center text-slate-500 dark:text-slate-400"
                   >
                     No users found.
                   </td>
@@ -162,7 +240,7 @@ export default function DashboardPage() {
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

@@ -15,10 +15,7 @@ interface Props {
   totalUsers: number;
 }
 
-export default function UserBarChart({
-  totalAdmins,
-  totalUsers,
-}: Props) {
+export default function UserBarChart({ totalAdmins, totalUsers }: Props) {
   const data = [
     {
       name: "Admins",
@@ -31,19 +28,29 @@ export default function UserBarChart({
   ];
 
   return (
-    <ResponsiveContainer width="100%" height={320}>
-      <BarChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
+    <ResponsiveContainer width="100%" height={340}>
+      <BarChart
+        data={data}
+        margin={{
+          top: 10,
+          right: 20,
+          left: 0,
+          bottom: 0,
+        }}
+      >
+        <CartesianGrid strokeDasharray="4 4" vertical={false} />
 
-        <XAxis dataKey="name" />
+        <XAxis dataKey="name" tickLine={false} axisLine={false} />
 
-        <YAxis />
+        <YAxis tickLine={false} axisLine={false} />
 
         <Tooltip />
 
         <Bar
           dataKey="count"
-          radius={[8, 8, 0, 0]}
+          fill="#2563eb"
+          radius={[10, 10, 0, 0]}
+          maxBarSize={70}
         />
       </BarChart>
     </ResponsiveContainer>

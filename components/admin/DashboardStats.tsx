@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Users,
-  ShieldCheck,
-  User,
-  BarChart3,
-} from "lucide-react";
+import { Users, ShieldCheck, User } from "lucide-react";
 
 interface DashboardStatsProps {
   totalUsers: number;
@@ -23,44 +18,68 @@ export default function DashboardStats({
       title: "Total Users",
       value: totalUsers,
       icon: Users,
-      color: "bg-blue-500",
+      color: "bg-blue-600",
+      text: "All registered accounts",
     },
     {
-      title: "Admins",
+      title: "Administrators",
       value: adminCount,
       icon: ShieldCheck,
-      color: "bg-green-500",
+      color: "bg-emerald-600",
+      text: "System administrators",
     },
     {
-      title: "Users",
+      title: "Normal Users",
       value: userCount,
       icon: User,
       color: "bg-orange-500",
+      text: "Registered users",
     },
   ];
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
       {cards.map((card) => {
         const Icon = card.icon;
 
         return (
           <div
             key={card.title}
-            className="rounded-2xl bg-white p-6 shadow-md transition hover:-translate-y-1 hover:shadow-xl"
+            className="
+              group
+              rounded-3xl
+              border border-slate-200 dark:border-slate-700
+              bg-white dark:bg-slate-900
+              p-6
+              shadow-sm
+              transition-all duration-300
+              hover:-translate-y-1
+              hover:shadow-xl
+            "
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                   {card.title}
                 </p>
 
-                <h2 className="mt-2 text-3xl font-bold">
+                <h2 className="mt-3 text-4xl font-bold text-slate-900 dark:text-white">
                   {card.value}
                 </h2>
+
+                <p className="mt-2 text-sm text-slate-400">{card.text}</p>
               </div>
 
-              <div className={`${card.color} rounded-xl p-4 text-white`}>
+              <div
+                className={`
+                  ${card.color}
+                  rounded-2xl
+                  p-4
+                  text-white
+                  transition-transform duration-300
+                  group-hover:scale-110
+                `}
+              >
                 <Icon size={28} />
               </div>
             </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { X, UserCog } from "lucide-react";
 
 interface User {
   _id: string;
@@ -65,35 +66,67 @@ export default function EditUserModal({
         return;
       }
 
-      alert("User Updated Successfully!");
-
       onUserUpdated();
-
       onClose();
     } catch (error) {
       console.error(error);
-
-      alert("Something went wrong");
+      alert("Something went wrong.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-        <h2 className="mb-6 text-2xl font-bold text-blue-600">
-          Edit User
-        </h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="w-full max-w-lg rounded-3xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+
+        {/* Header */}
+
+        <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5 dark:border-slate-700">
+
+          <div className="flex items-center gap-3">
+
+            <div className="rounded-2xl bg-blue-600 p-3 text-white">
+              <UserCog size={24} />
+            </div>
+
+            <div>
+
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                Edit User
+              </h2>
+
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                Update user information
+              </p>
+
+            </div>
+
+          </div>
+
+          <button
+            onClick={onClose}
+            className="rounded-xl p-2 transition hover:bg-slate-100 dark:hover:bg-slate-800"
+          >
+            <X size={22} />
+          </button>
+
+        </div>
+
+        {/* Form */}
+
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 p-6"
+        >
           <div>
-            <label className="mb-2 block font-medium">
+            <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">
               Name
             </label>
 
             <input
-              className="w-full rounded border px-4 py-3"
+              type="text"
               value={formData.name}
               onChange={(e) =>
                 setFormData({
@@ -101,16 +134,33 @@ export default function EditUserModal({
                   name: e.target.value,
                 })
               }
+              className="
+                w-full
+                rounded-xl
+                border
+                border-slate-300
+                bg-white
+                px-4
+                py-3
+                outline-none
+                transition
+                focus:border-blue-500
+                focus:ring-2
+                focus:ring-blue-200
+                dark:border-slate-700
+                dark:bg-slate-800
+                dark:text-white
+              "
             />
           </div>
 
           <div>
-            <label className="mb-2 block font-medium">
+            <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">
               Email
             </label>
 
             <input
-              className="w-full rounded border px-4 py-3"
+              type="email"
               value={formData.email}
               onChange={(e) =>
                 setFormData({
@@ -118,16 +168,32 @@ export default function EditUserModal({
                   email: e.target.value,
                 })
               }
+              className="
+                w-full
+                rounded-xl
+                border
+                border-slate-300
+                bg-white
+                px-4
+                py-3
+                outline-none
+                transition
+                focus:border-blue-500
+                focus:ring-2
+                focus:ring-blue-200
+                dark:border-slate-700
+                dark:bg-slate-800
+                dark:text-white
+              "
             />
           </div>
 
           <div>
-            <label className="mb-2 block font-medium">
+            <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">
               Role
             </label>
 
             <select
-              className="w-full rounded border px-4 py-3"
               value={formData.role}
               onChange={(e) =>
                 setFormData({
@@ -135,18 +201,48 @@ export default function EditUserModal({
                   role: e.target.value,
                 })
               }
+              className="
+                w-full
+                rounded-xl
+                border
+                border-slate-300
+                bg-white
+                px-4
+                py-3
+                outline-none
+                transition
+                focus:border-blue-500
+                focus:ring-2
+                focus:ring-blue-200
+                dark:border-slate-700
+                dark:bg-slate-800
+                dark:text-white
+              "
             >
               <option value="admin">Admin</option>
-
               <option value="user">User</option>
             </select>
           </div>
 
-          <div className="flex justify-end gap-3">
+          {/* Buttons */}
+
+          <div className="flex justify-end gap-3 pt-2">
+
             <button
               type="button"
               onClick={onClose}
-              className="rounded bg-gray-300 px-5 py-2"
+              className="
+                rounded-xl
+                border
+                border-slate-300
+                px-5
+                py-3
+                font-medium
+                transition
+                hover:bg-slate-100
+                dark:border-slate-700
+                dark:hover:bg-slate-800
+              "
             >
               Cancel
             </button>
@@ -154,13 +250,29 @@ export default function EditUserModal({
             <button
               type="submit"
               disabled={loading}
-              className="rounded bg-blue-600 px-5 py-2 text-white"
+              className="
+                rounded-xl
+                bg-blue-600
+                px-6
+                py-3
+                font-semibold
+                text-white
+                transition-all
+                duration-300
+                hover:bg-blue-700
+                disabled:cursor-not-allowed
+                disabled:opacity-60
+              "
             >
               {loading ? "Saving..." : "Save Changes"}
             </button>
+
           </div>
+
         </form>
+
       </div>
+
     </div>
   );
 }
